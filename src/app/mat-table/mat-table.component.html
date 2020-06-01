@@ -1,0 +1,45 @@
+<div class="padding-12">
+  <mat-checkbox
+    #moveAnywhereCheckBox
+    [checked]="moveAnywhere"
+    (change)="onMoveAnyWhereChanged(moveAnywhereCheckBox.checked)"
+  >
+    Move Anywhere!
+  </mat-checkbox>
+</div>
+
+<table
+  #table
+  mat-table
+  [dataSource]="dataSource"
+  class="mat-elevation-z8 width-100"
+  cdkDropList
+  [cdkDropListData]="dataSource"
+  (cdkDropListDropped)="dropTable($event)"
+>
+  <!-- Position Column -->
+  <ng-container matColumnDef="position">
+    <th mat-header-cell *matHeaderCellDef> No. </th>
+    <td mat-cell *matCellDef="let element">
+      reorder
+    </td>
+  </ng-container>
+
+  <ng-container
+  *ngFor="let header of headerConfigurations"
+    matColumnDef="{{header.heading}}"
+    >
+    <th mat-header-cell *matHeaderCellDef> {{header.heading}} </th>
+    <td mat-cell *matCellDef="let element"> {{element[header.key]}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row
+      *matRowDef="let row; columns: displayedColumns;"
+      cdkDrag
+      [cdkDragData]="row"
+      [cdkDragDisabled]="row.studentId === disabledStudentId"
+      [ngClass]="{'cursor-move': row.studentId !== disabledStudentId}"
+  >
+  </tr>
+</table>
